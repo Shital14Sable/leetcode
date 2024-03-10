@@ -11,18 +11,16 @@
  */
 class Solution {
 public:
-    int arr = 0;
-    int goodNodes(TreeNode* root) {
-        dfs(root, root->val);
-        return arr;
+    vector<int> stack;
+    int kthSmallest(TreeNode* root, int k) {
+        helper(root);
+        sort(stack.begin(), stack.end()); 
+        return stack[k-1];
     }
 
-    void dfs(TreeNode* node, int maxVal){
-        if (node->val >= maxVal){ 
-            arr++;
-            maxVal = node->val;
-        }
-        if (node->left != NULL) dfs(node->left, maxVal);
-        if (node->right != NULL) dfs(node->right, maxVal);
+    void helper(TreeNode* node){
+        if (node != NULL) stack.push_back(node->val);
+        if (node->left != NULL) helper(node->left);
+        if (node->right != NULL) helper(node->right);
     }
 };
